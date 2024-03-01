@@ -1,0 +1,119 @@
+body {
+  margin: 0;
+  padding: 0;
+  text-align: left;
+  text-align: center;
+  font-family: "Noto Sans JP", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  background: rgba(218, 144, 152, 0.3);
+  padding: 60px;
+}
+
+#calendar {
+  border: 3px solid #000;
+  width: 1008px;
+  padding: 90px 60px 60px;
+  margin: 0 auto;
+  position: relative;
+  background: rgba(218, 144, 152, 0.3);
+}
+
+h1 {
+  font-size: 42px;
+  display: inline-block;
+  border-bottom: 3px solid #000;
+  font-weight: 700;
+  margin-bottom: 70px;
+  padding-bottom: 10px;
+}
+
+.button_area {
+  position: absolute;
+  display: flex;
+  transform: rotate(90deg);
+  right: -443px;
+  top: 394px;
+  cursor: pointer;
+}
+
+#month {
+  width: 1008px;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.days {
+  width: 100px;
+  background: #fff;
+  margin: 12px 12px;
+  padding: 10px;
+  font-weight: 600;
+  position: relative;
+}
+
+.happyday {
+  width: 100px;
+  background: #fff;
+  margin: 12px 12px;
+  padding: 10px;
+  font-weight: 600;
+  position: relative;
+}
+
+.sadday {
+  width: 100px;
+  background: #fff;
+  margin: 12px 12px;
+  padding: 10px;
+  font-weight: 600;
+  position: relative;
+}
+
+.sosoday {
+  width: 100px;
+  background: #fff;
+  margin: 12px 12px;
+  padding: 10px;
+  font-weight: 600;
+  position: relative;
+}
+
+.kibun_area {
+  background: #fff;
+  width: 40px;
+  height: 40px;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  border-radius: 50%;
+}
+.kibun_area option {
+  text-align: center;
+}
+
+.num {
+  font-size: 20px;
+  margin-bottom: 10px;
+  padding-bottom: 6px;
+  border-bottom: 2px solid #000;
+  display: inline-block;
+}
+
+.red {
+  color: #a6236d;
+  border-bottom: 2px solid #a6236d;
+}
+
+.blue {
+  color: #2342a6;
+  border-bottom: 2px solid #2342a6;
+}
+
+textarea {
+  width: 100px;
+  height: 100px;
+  background: rgba(218, 144, 152, 0.5);
+  margin-bottom: 10px;
+}/*# sourceMappingURL=style.css.map */

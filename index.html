@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&display=swap" rel="stylesheet">
+    <title>日記帳</title>
+</head>
+
+<body>
+    <header class="header">
+    </header>
+    <div id="calendar">
+        <h1>Diary</h1>
+        <div id="month">
+        </div>
+
+        <div class="button_area">
+            <p id="btn_save"><img src="img/btn_save.png"></p>
+            <p id="btn_clear"><img src="img/btn_clear.png"></p>    
+            <p id="btn_happy"><img src="img/btn_happy.png"></p>
+            <p id="btn_sad"><img src="img/btn_sad.png"></p>    
+            <p id="btn_soso"><img src="img/btn_soso.png"></p>
+            <p id="btn_all"><img src="img/btn_all.png"></p>
+
+        </div>
+    </div>
+    <footer>
+    </footer>
+    
+
+<script>
+ //********************カレンダーを生成********************
+function daysCreate (start,end) {
+    let str = "";
+    for(let i=start; i<end; i++) {    
+            
+        if (i % 7 === 0 ) {//土曜日 7の倍数
+            str +=`
+            <div class="days"><p class="num blue">${i}</p>
+            <textarea id="day_${i}"></textarea>
+            <select name="kibun" id="kibun_${i}" class="kibun_area">
+            <option value="">気分</option>
+            <option value="happy" class="happy">😁</option>
+            <option value="sad" class="sad">😢</option>
+            <option value="soso" class="soso">😐</option>
+            </select>
+              
+            </div>
+            `;
+        }
+        else if (i % 7 === 1 ) {//日曜日 7の倍数＋１
+            str +=`
+            <div class="days"><p class="num red">${i}</p>
+            <textarea id="day_${i}"></textarea>
+            <select name="kibun" id="kibun_${i}" class="kibun_area">
+            <option value="">気分</option>
+            <option value="happy" class="happy">😁</option>
+            <option value="sad" class="sad">😢</option>
+            <option value="soso" class="soso">😐</option>
+            </select>
+            </div>
+             `;
+        }
+        else {
+            str +=`
+            <div class="days"><p class="num">${i}</p>
+            <textarea id="day_${i}"></textarea>
+            <select name="kibun" id="kibun_${i}" class="kibun_area">
+            <option value="">気分</option>
+            <option value="happy" class="happy">😁</option>
+            <option value="sad" class="sad">😢</option>
+            <option value="soso" class="soso">😐</option>
+            </select>
+            </div>
+            `;
+        }
+
+    }
+    return str;
+} 
+const day = daysCreate(1,32);
+$("#month").html(day);
+
+ //********************気分の箱を生成********************
+ $('.kibun_area').change(function() {
+
+    var kibun_id = $(this).attr("id");    
+    console.log(kibun_id);
+    var kibun_val = $(`#${kibun_id}`).val();
+    console.log(kibun_val,"これを選びました");
+
+    if (kibun_val == "happy") {
+        console.log("しあわせです");
+        $(`#${kibun_id}`).parent().addClass("happyday");
+        $(`#${kibun_id}`).parent().removeClass("days");
+    }        
+    if (kibun_val == "sad") {
+        console.log("かなしいです");
+        $(`#${kibun_id}`).parent().addClass("sadday");
+        $(`#${kibun_id}`).parent().removeClass("days");
+    }        
+    if (kibun_val == "soso") {
+        console.log("まあまあです");
+        $(`#${kibun_id}`).parent().addClass("sosoday");
+        $(`#${kibun_id}`).parent().removeClass("days");
+    }        
+
+})
+//********************カレンダーに日記機能をつける********************
+$("#btn_save").on("click",function(){
+    console.log("saveが押されました");
+    for (let i=1; i<32; i++) {
+        var diary_num = `day_${i}`;
+        var kibun_num = `kibun_${i}`;
+
+        var val = $(`#${diary_num}`).val();
+        var kibun_val = $(`#${kibun_num}`).val();
+
+        localStorage.setItem(diary_num,val); //diary_numに $("#diary_num").val();を保存
+        localStorage.setItem(kibun_num,kibun_val); //kibun_num $("#kibun_num").val();を保存
+    }
+});
+
+
+//********************日記を消す********************
+$("#btn_clear").on("click",function(){
+    for(let i=1; i<32; i++) {
+        var diary_num = `day_${i}`;
+        var kibun_num = `kibun_${i}`;
+
+        var val = $(`#${diary_num}`).val();
+        var kibun_val = $(`#${kibun_num}`).val();
+        localStorage.removeItem(diary_num);
+        localStorage.removeItem(kibun_num);
+
+        if (diary_num) { //キーがあればvalの中身を消す
+            $(`#${diary_num}`).val('');
+        }
+        if (kibun_num) { //キーがあればvalの中身を消す
+            $(`#${kibun_num}`).val('');
+        }
+        // $("#" + diary_num).val('');//これでも消せるけど全部を消す指示
+        // $("#" + kibun_val).val('');//これでも消せるけど全部を消す指示
+    }
+
+    location.reload();
+    
+});
+
+//********************日記をソートする********************
+$("#btn_all").on("click",function(){
+    console.log("オールボタンを押しました");
+    $(".happyday").show();
+    $(".sadday").show();
+    $(".sosoday").show();
+    $(".days").show();    
+});
+$("#btn_happy").on("click",function(){
+    console.log("ハッピーボタンを押しました");
+    $(".happyday").show();
+    $(".sadday").hide();
+    $(".sosoday").hide();
+    $(".days").hide();  
+});
+$("#btn_sad").on("click",function(){
+    console.log("かなしいボタンを押しました");
+    $(".sadday").show();
+    $(".happyday").hide();
+    $(".sosoday").hide();
+    $(".days").hide();
+});
+$("#btn_soso").on("click",function(){
+    console.log("まあまあボタンを押しました");
+    $(".sosoday").show();
+    $(".happyday").hide();
+    $(".sadday").hide();
+    $(".days").hide();
+});
+ //********************キーを取得して入ってるvalueを各キーに入れる********************
+ function keyjudge (start,end) {
+    let diary_num = "";
+    let kibun_num = "";
+
+    for(let i=start; i<end; i++) {
+        diary_num = `day_${i}`;
+        kibun_num = `kibun_${i}`;
+
+        //日記のキーがあるか
+        if(localStorage.getItem(diary_num)){
+            var val = $(`#${diary_num}`).val();
+            const diary_content = localStorage.getItem(diary_num);
+
+            $(`#${diary_num}`).val(diary_content);
+        }
+        //気分のキーがあるか
+        if(localStorage.getItem(kibun_num)){
+            var kibun_val = $(`#${kibun_num}`).val();
+            console.log(kibun_val,"たぶんでないんです");
+
+            const kibun_content = localStorage.getItem(kibun_num);
+            $(`#${kibun_num}`).val(kibun_content);
+        }
+
+     }
+   
+    //return keyname;
+}
+const key = keyjudge(1,32);
+
+</script>
+</body>
+
+</html>
